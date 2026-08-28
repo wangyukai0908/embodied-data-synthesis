@@ -1,0 +1,19 @@
+diff --git a/cosmos_predict2/pipelines/video2world_action.py b/cosmos_predict2/pipelines/video2world_action.py
+index 89fa4c3..cd20578 100644
+--- a/cosmos_predict2/pipelines/video2world_action.py
++++ b/cosmos_predict2/pipelines/video2world_action.py
+@@ -239,10 +239,13 @@ class Video2WorldActionConditionedPipeline(Video2WorldPipeline):
+         assert num_conditional_frames in [1, 5], "num_conditional_frames must be 1 or 5"
+         num_latent_conditional_frames = self.tokenizer.get_latent_num_frames(num_conditional_frames)
+ 
+-        # num_video_frames = self.tokenizer.get_pixel_num_frames(self.config.state_t)
++        num_video_frames = self.tokenizer.get_pixel_num_frames(self.config.state_t)
+ 
+         # transform first frame and actions to tensor
+         vid_input = torch.from_numpy(first_frame).permute(2, 0, 1)[None, :, None, ...]
++        # Action-conditioned training uses a 13-frame state window with only
++        # the first frame observed; repeat the observation to the model window.
++        vid_input = vid_input.repeat(1, 1, num_video_frames, 1, 1)
+         actions_tensor = torch.from_numpy(actions).to(dtype=torch.bfloat16)[None, ...]
+ 
+         # Prepare the data batch with text embeddings

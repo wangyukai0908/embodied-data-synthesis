@@ -1,0 +1,13 @@
+diff --git a/examples/video2world_action.py b/examples/video2world_action.py
+index 0ae0695..101514c 100644
+--- a/examples/video2world_action.py
++++ b/examples/video2world_action.py
+@@ -160,7 +160,7 @@ def setup_pipeline(args: argparse.Namespace):
+         device="cuda",
+         torch_dtype=torch.bfloat16,
+         load_ema_to_reg=args.load_ema,
+-        load_prompt_refiner=True,
++        load_prompt_refiner=not args.disable_prompt_refiner,
+     )
+ 
+     return pipe
