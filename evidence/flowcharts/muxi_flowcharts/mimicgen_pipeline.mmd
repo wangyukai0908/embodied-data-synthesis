@@ -1,0 +1,47 @@
+%% MimicGen Pipeline · 对齐论文 Fig.2 / CoRL 2023
+flowchart LR
+    subgraph S1["① 输入：少量人工示范"]
+        direction TB
+        A["真实 / 仿真\n人工示范 × N"]
+        B["源数据集\n画面 + 状态 + 动作"]
+        A --> B
+    end
+
+    subgraph S2["② 解析：对象级子任务切分"]
+        direction TB
+        C["按对象中心子任务\n切分 trajectory"]
+        D["子任务片段库\nsegment × M"]
+        B --> C --> D
+    end
+
+    subgraph S3["③ 生成：新场景重组"]
+        direction TB
+        E["场景随机化\n物体位姿 / 实例 / 机械臂"]
+        F["选取参考片段\nSE(3) 变换对齐"]
+        G["片段拼接\n插值过渡 → 执行"]
+        E --> F --> G
+        D --> F
+    end
+
+    subgraph S4["④ 验收：只保留成功轨迹"]
+        direction TB
+        H["控制器 rollout\n采集新 demonstration"]
+        I["成功判定\n碰撞 / 任务 predicate"]
+        J["合成数据集\n可训 BC / VLA"]
+        G --> H --> I --> J
+    end
+
+    style A fill:#EAF3F7,stroke:#0E5A8A,color:#172033
+    style B fill:#EAF3F7,stroke:#0E5A8A,color:#172033
+    style C fill:#F5FAFC,stroke:#526174,color:#172033
+    style D fill:#F5FAFC,stroke:#526174,color:#172033
+    style E fill:#FFF4EC,stroke:#C96B1A,color:#172033
+    style F fill:#FFF4EC,stroke:#C96B1A,color:#172033
+    style G fill:#FFF4EC,stroke:#C96B1A,color:#172033
+    style H fill:#EEF8F4,stroke:#1F8A70,color:#172033
+    style I fill:#EEF8F4,stroke:#1F8A70,color:#172033
+    style J fill:#EAF3F7,stroke:#0E5A8A,color:#172033
+    style S1 fill:#F7FBFD,stroke:#0E5A8A,color:#172033
+    style S2 fill:#F8FAFB,stroke:#526174,color:#172033
+    style S3 fill:#FFFBF7,stroke:#C96B1A,color:#172033
+    style S4 fill:#F5FBF8,stroke:#1F8A70,color:#172033

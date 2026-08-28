@@ -19,6 +19,11 @@ FORBIDDEN = (
     "C:" + "/Users",
 )
 
+# Public handles that contain a forbidden substring but are intentionally published.
+PUBLIC_EXCEPTIONS = (
+    "wang" + "yukai" + "0908",
+)
+
 SKIP_DIRS = {".git", "__pycache__", ".venv", "internal", "outputs", "checkpoints"}
 TEXT_SUFFIXES = {".md", ".sh", ".py", ".json", ".yaml", ".yml", ".txt", ".toml", ".csv"}
 
@@ -36,13 +41,20 @@ def iter_files(root: Path) -> list[Path]:
     return files
 
 
+def scrub_public_exceptions(text: str) -> str:
+    scrubbed = text
+    for handle in PUBLIC_EXCEPTIONS:
+        scrubbed = scrubbed.replace(handle, "")
+    return scrubbed
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
     args = parser.parse_args()
     hits: list[str] = []
     for path in iter_files(args.root):
-        text = path.read_text(encoding="utf-8", errors="replace")
+        text = scrub_public_exceptions(path.read_text(encoding="utf-8", errors="replace"))
         for token in FORBIDDEN:
             if token in text:
                 hits.append(f"{path.relative_to(args.root)}: {token}")

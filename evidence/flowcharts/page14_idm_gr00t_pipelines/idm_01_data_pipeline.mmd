@@ -1,0 +1,12 @@
+%% IDM 数据链路 · 文本条件 DreamGen → 可训练 Parquet
+%% 受众：领导汇报 · 强调工程阶段与证据边界
+flowchart LR
+    A["126 条生成 MP4\n+ 任务文本"] --> B["预处理\n裁剪 ego_view\n视频/标签对齐"]
+    B --> C["LeRobot 骨架\n.data\n视频 + 占位 action"]
+    C --> D["IDM 推理\n多帧视觉\n→ 16 步动作块"]
+    D --> E["后处理\n反归一化\n重叠窗口平均"]
+    E --> F["写回 .data_idm\n126 条 episode\n伪动作监督"]
+
+    style A fill:#FFF4EC,stroke:#C96B1A,color:#172033
+    style F fill:#EEF8F4,stroke:#1F8A70,color:#172033
+    style D fill:#EAF3F7,stroke:#0E5A8A,color:#172033

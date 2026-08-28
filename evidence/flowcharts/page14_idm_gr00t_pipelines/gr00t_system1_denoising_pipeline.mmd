@@ -1,0 +1,68 @@
+%% GR00T System 1 · 动作去噪 Pipeline
+%% 代码：gr00t/model/action_head/flow_matching_action_head.py + gr00t_n1.py
+flowchart TB
+    subgraph IN["输入（来自 System 2 + 机器人状态）"]
+        direction LR
+        VL["backbone_features\nVLM 视觉-语言特征"]
+        ST["state\n关节 / 本体状态"]
+        EM["embodiment_id\n本体标签"]
+    end
+
+    subgraph TRAIN["训练 · Flow Matching"]
+        direction TB
+        T1["真实 action chunk\n(B, T, action_dim)"]
+        T2["采样噪声 ε ~ N(0,I)\n采样时间 t ~ Beta"]
+        T3["构造加噪轨迹\nx_t = (1-t)ε + t·a"]
+        T4["目标速度\nv = a - ε"]
+        T5["Action Encoder\n+ 时间步嵌入"]
+        T6["State Encoder\nCategorySpecificMLP"]
+        T7["拼接 state ∥ action 特征"]
+        T8["DiT Cross-Attention\n以 VLM 特征为条件"]
+        T9["Action Decoder\n预测速度 v̂"]
+        T10["MSE Loss\nv̂ vs v（按 action_mask）"]
+
+        T1 --> T3
+        T2 --> T3
+        T2 --> T4
+        T3 --> T5 --> T7
+        T6 --> T7
+        VL --> T8
+        T7 --> T8 --> T9 --> T10
+        T4 --> T10
+    end
+
+    subgraph INFER["推理 · 动作去噪迭代"]
+        direction TB
+        I1["初始化\na ← randn 噪声"]
+        I2["for t = 0 … N-1\n默认 N=4 步"]
+        I3["Action Encoder(a, t)\n+ 位置编码"]
+        I4["State Encoder(state)"]
+        I5["拼接 → DiT\nCross-Attn(VLM)"]
+        I6["Action Decoder\n预测 v̂_t"]
+        I7["Euler 更新\na ← a + (1/N)·v̂_t"]
+        I8["action_pred\n连续 action chunk"]
+
+        I1 --> I2 --> I3 --> I5
+        I4 --> I5 --> I6 --> I7
+        I7 --> I2
+        I7 --> I8
+    end
+
+    ST --> T6
+    ST --> I4
+    EM --> T5
+    EM --> T6
+    EM --> T9
+    EM --> I3
+    EM --> I6
+    VL --> I5
+
+    style VL fill:#EAF3F7,stroke:#0E5A8A,color:#172033
+    style ST fill:#FFF4EC,stroke:#C96B1A,color:#172033
+    style EM fill:#F5FAFC,stroke:#526174,color:#172033
+    style T8 fill:#EAF3F7,stroke:#0E5A8A,color:#172033
+    style T10 fill:#EEF8F4,stroke:#1F8A70,color:#172033
+    style I8 fill:#EEF8F4,stroke:#1F8A70,color:#172033
+    style IN fill:#FFFBF7,stroke:#C96B1A,color:#172033
+    style TRAIN fill:#F7FBFD,stroke:#0E5A8A,color:#172033
+    style INFER fill:#F5FBF8,stroke:#1F8A70,color:#172033

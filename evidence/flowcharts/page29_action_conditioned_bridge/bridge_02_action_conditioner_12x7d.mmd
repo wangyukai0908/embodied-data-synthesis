@@ -1,0 +1,7 @@
+%% Source: DreamGen-GR00T-and-Three-WAM-正式汇报-二版完整稿.md, page 26
+flowchart LR
+    A["首帧\n1×RGB"] --> D["Video2World DiT"]
+    B["机器人状态序列\nEEF pose + gripper"] --> C["逐帧相对变换\n12×7D action"]
+    C --> E["Action Conditioner\n展平为 84D 条件"]
+    E --> D
+    D --> F["与动作块对应的\n未来视觉序列"]

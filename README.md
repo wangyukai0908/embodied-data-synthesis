@@ -31,22 +31,29 @@
 
 | 资源 | 地址 | 状态 |
 |---|---|---|
-| 代码与文档 | https://github.com/wangyukai0908/embodied-data-synthesis | 已推送（`master`；`main` 合并视网络情况） |
-| PPT 二进制 | 本地桌面 `具身智能数据合成方法-公司汇报-最终版.pptx` | **不进 Git**（版权 / 体积）；正文在 `docs/presentation-source.md` |
-| 大文件 Dataset | https://huggingface.co/datasets/kevin0908/embodied-data-synthesis-artifacts | 已上传：Bridge test/13、126 MP4、`.data_idm`、`trainer_state.json`（约 235MB） |
-| 上游 GR00T-Dreams | 外部 clone，revision `ec3881d...` | 见 `manifests/upstream-revisions.md` |
-| 上游 cosmos-predict2 | 外部 clone，revision `661da477...` + 本仓 `patches/cosmos-predict2/` | 同上 |
+| 代码与文档 | https://github.com/wangyukai0908/embodied-data-synthesis | 已推送 |
+| 大文件 Dataset | https://huggingface.co/datasets/kevin0908/embodied-data-synthesis-artifacts | Bridge test/13、126 MP4、`.data_idm`、`trainer_state.json`（约 235MB） |
+| PPT 正文 | [`docs/presentation-source.md`](docs/presentation-source.md) | PPTX 二进制不进 Git |
+| 流程图 | [`evidence/flowcharts/`](evidence/flowcharts/) | Mermaid + PNG |
+
+### 官方权重 / 上游代码（服务器上有、本仓不托管）
+
+大 checkpoint 请直接从官方拉取，不必再上传到本 Dataset：
+
+| 用途 | 官方地址 |
+|---|---|
+| IDM（GR1）权重 | https://huggingface.co/seonghyeonye/IDM_gr1 |
+| GR00T N1-2B 基座 | https://huggingface.co/nvidia/GR00T-N1-2B |
+| Cosmos 动作条件 2B | https://huggingface.co/nvidia/Cosmos-Predict2-2B-Sample-Action-Conditioned |
+| Cosmos Video2World tokenizer | https://huggingface.co/nvidia/Cosmos-Predict2-2B-Video2World |
+| DreamGen / IDM / GR00T 编排代码 | https://github.com/NVIDIA/GR00T-Dreams （pin `ec3881d44545016871997f8e17dd15f1d792e91d`） |
+| Cosmos Predict2 | https://github.com/nvidia-cosmos/cosmos-predict2 （pin `661da4774b0ca41d082a0ecbeb47550bcf07e03f`） |
+
+本仓案例产物（126 视频、`.data_idm`、Bridge 冒烟样本）在 HF Dataset；**GR00T 微调 150G / IDM 9G / Cosmos ~4.8G 权重不上传**，用上表官方链。
 
 ### Git 里有没有视频？
 
-**没有（有意为之）。** GitHub 不适合存：
-
-- 126 条 DreamGen MP4（约 207 MB）
-- LeRobot / IDM parquet（约十几 MB，可进 HF）
-- IDM / Cosmos / GR00T 权重（数 GB～150 GB）
-
-指标 JSON、schema、脚本已在本仓。**视频与轨迹请走 Hugging Face**，上传后把 Dataset URL 回填本节即可。
-
+**没有（有意为之）。** GitHub 只放脚本、文档、流程图与小体积指标；视频与轨迹走 Hugging Face；权重走官方 HF。
 ---
 
 ## 3. 最终版 PPT 目录（40 页）
@@ -183,9 +190,9 @@ bash pipelines/cosmos_bridge/run_inference.sh \
 1. 从 HF Dataset（上传后）或自备目录准备：
    - `rgb.mp4`
    - `13.json`（Bridge annotation）
-2. 准备 checkpoint：
-   - `Cosmos-Predict2-2B-Sample-Action-Conditioned/model-480p-4fps.pt`
-   - `Cosmos-Predict2-2B-Video2World/tokenizer/tokenizer.pth`
+2. 准备 checkpoint（官方 HF，见 §2）：
+   - `nvidia/Cosmos-Predict2-2B-Sample-Action-Conditioned` → `model-480p-4fps.pt`
+   - `nvidia/Cosmos-Predict2-2B-Video2World` → `tokenizer/tokenizer.pth`
 3. 应用本仓 2 个 patch（见上）。
 4. 在上游执行 `examples/video2world_action.py`（参数见 `pipelines/cosmos_bridge/README.md` 与 `evidence/metrics/bridge_test_13.json`）。
 5. 校验：
@@ -244,8 +251,15 @@ uv run scripts/plot_gr00t_loss.py /path/to/trainer_state.json evidence/plots/gr0
 3. `.data_idm`  
 4. `trainer_state.json`
 
-**不要**默认把 10GB+ IDM / 19GB+ GR00T ckpt / Cosmos 权重塞进 Dataset；官方权重链到 NVIDIA HF 即可。
+**不要**默认把 10GB+ IDM / 19GB+ GR00T ckpt / Cosmos 权重塞进 Dataset；官方权重见 §2。
 
+辅助脚本（本机材料整理）：
+
+```bash
+python scripts/extract_video_keyframes.py /path/to/video.mp4 -o out/ --contact-sheet
+python scripts/plot_bridge_action_curve.py tests/fixtures/bridge_test_13/13.json -o evidence/plots/bridge_action.png
+uv run scripts/plot_gr00t_loss.py /path/to/trainer_state.json evidence/plots/gr00t_loss.png
+```
 ---
 
 ## 6. 仓库结构
@@ -258,13 +272,14 @@ docs/
 pipelines/
   cosmos_bridge/           # 教程 A
   dreamgen_gr00t/          # 教程 B
-scripts/                   # qa、扫描、metrics、loss 图
+scripts/                   # qa、扫描、metrics、keyframes、action 曲线
 patches/cosmos-predict2/   # Bridge 推理所需 2 个最小补丁
 manifests/                 # 溯源、产物、主张边界
-evidence/                  # 小体积证据（metrics/schema）
+evidence/
+  flowcharts/              # 汇报用 Mermaid + PNG
+  metrics/ schemas/ plots/
 tests/fixtures/            # dry-run 夹具
 ```
-
 ---
 
 ## 7. 证据边界（汇报时勿越界）

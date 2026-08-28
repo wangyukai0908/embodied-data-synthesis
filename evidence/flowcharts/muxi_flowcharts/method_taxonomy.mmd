@@ -1,0 +1,47 @@
+%% Slide 13–14 · 方法谱系 · A/B/C/D 横向四列
+flowchart TB
+    subgraph TOP["按生成对象与动作监督来源"]
+        direction LR
+        subgraph A["A · 仿真与轨迹重组"]
+            direction TB
+            A1["仿真 rollout\nMimicGen 示范重组"]
+            A2["动作来源：模拟器 / 控制器 / 示范"]
+            A3["可直接训 VLA"]
+            A1 --> A2 --> A3
+        end
+        subgraph B["B · 无动作世界模型 + IDM"]
+            direction TB
+            B1["文本 + 首帧 → 视频"]
+            B2["动作来源：IDM 伪标签"]
+            B3["需补动作后才能训练"]
+            B1 --> B2 --> B3
+        end
+        subgraph C["C · 动作条件世界模型"]
+            direction TB
+            C1["真实 / 规划 action → 未来视频"]
+            C2["动作来源：外部轨迹"]
+            C3["保留真实动作，换画面"]
+            C1 --> C2 --> C3
+        end
+        subgraph D["D · World-Action Model"]
+            direction TB
+            D1["世界表征 → 直接动作预测"]
+            D2["动作来源：轨迹监督"]
+            D3["消费端，需 schema 对齐"]
+            D1 --> D2 --> D3
+        end
+        A --- B --- C --- D
+    end
+
+    E1["评价 1 · 动作监督是否可靠\n真实 > 规划 > 示范 > 模型伪标签"]
+    E2["评价 2 · 统一质量门\n文件 → 对齐 → 可执行 → 训练加载 → rollout"]
+
+    TOP --> E1 --> E2
+
+    style A fill:#F7FBFD,stroke:#0E5A8A,color:#172033
+    style B fill:#FFFBF7,stroke:#C96B1A,color:#172033
+    style C fill:#F5FBF8,stroke:#1F8A70,color:#172033
+    style D fill:#F8FAFB,stroke:#526174,color:#172033
+    style E1 fill:#FFFFFF,stroke:#526174,color:#172033
+    style E2 fill:#FFFFFF,stroke:#526174,color:#172033
+    style TOP fill:#FFFFFF,stroke:#526174,color:#172033

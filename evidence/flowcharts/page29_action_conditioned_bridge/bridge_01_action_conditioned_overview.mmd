@@ -1,0 +1,11 @@
+%% Source: DreamGen-GR00T-and-Three-WAM-正式汇报-二版完整稿.md, page 25
+flowchart LR
+    A["真实机器人轨迹"] --> B["首帧 RGB"]
+    A --> C["同步真实 action chunk"]
+    B --> D["Cosmos-Predict2\nAction-Conditioned"]
+    C --> D
+    D --> E["动作条件下的未来视频"]
+    C --> F["原 state / action / task / timestamp\n保持不变"]
+    E --> G["视觉增广轨迹"]
+    F --> G
+    G --> H["LeRobot / GR00T 训练数据"]

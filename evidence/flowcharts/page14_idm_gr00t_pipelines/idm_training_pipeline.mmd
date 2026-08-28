@@ -1,0 +1,47 @@
+%% IDM 训练链路 · 对齐 scripts/idm_training.py + IDM_dump/base.yaml
+flowchart LR
+    subgraph S1["① 训练数据（必须带真动作）"]
+        direction TB
+        A["真实 / 仿真\nLeRobot 轨迹"]
+        B["video[t] + video[t+16]\n+ 真实 action[t:t+16]"]
+        A --> B
+    end
+
+    subgraph S2["② 数据配置与加载"]
+        direction TB
+        C["data_config_idm\n相机 / 状态 / 动作字段"]
+        D["LeRobotSingleDataset\n+ IDM Transform"]
+        B --> C --> D
+    end
+
+    subgraph S3["③ 模型初始化"]
+        direction TB
+        E["IDM_dump/base.yaml\nSigLIP2 预训练"]
+        F["Flow Matching\nAction Head · horizon 16"]
+        E --> F
+    end
+
+    subgraph S4["④ 训练与产出"]
+        direction TB
+        G["TrainRunner\nAdamW · bf16 · cosine"]
+        H["IDM checkpoint\n如 IDM_gr1"]
+        G --> H
+    end
+
+    D --> G
+    F --> G
+    H -.-> I["dump_idm_actions.py\n推理写回 .data_idm"]
+
+    style A fill:#EAF3F7,stroke:#0E5A8A,color:#172033
+    style B fill:#EAF3F7,stroke:#0E5A8A,color:#172033
+    style C fill:#F5FAFC,stroke:#526174,color:#172033
+    style D fill:#F5FAFC,stroke:#526174,color:#172033
+    style E fill:#FFF4EC,stroke:#C96B1A,color:#172033
+    style F fill:#FFF4EC,stroke:#C96B1A,color:#172033
+    style G fill:#EEF8F4,stroke:#1F8A70,color:#172033
+    style H fill:#EAF3F7,stroke:#0E5A8A,color:#172033
+    style I fill:#FFFFFF,stroke:#526174,color:#172033
+    style S1 fill:#F7FBFD,stroke:#0E5A8A,color:#172033
+    style S2 fill:#F8FAFB,stroke:#526174,color:#172033
+    style S3 fill:#FFFBF7,stroke:#C96B1A,color:#172033
+    style S4 fill:#F5FBF8,stroke:#1F8A70,color:#172033

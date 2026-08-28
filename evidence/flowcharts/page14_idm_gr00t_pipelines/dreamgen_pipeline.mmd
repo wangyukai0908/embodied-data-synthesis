@@ -1,0 +1,45 @@
+%% DreamGen 主链路 · 对齐 auto_data_finetune_2gpu.sh
+flowchart LR
+    subgraph S1["① 输入准备"]
+        direction TB
+        A["EVAL-175\nPNG + 任务 txt"]
+        B["batch_input.json\n126 条输入"]
+        A --> B
+    end
+
+    subgraph S2["② 视频生成"]
+        direction TB
+        C["video2world_gr00t\nCosmos-Predict2 14B · gr1"]
+        D["eval175_gr1_videos\n126 × MP4"]
+        B --> C --> D
+    end
+
+    subgraph S3["③ 数据工程"]
+        direction TB
+        E["split_video_instruction\n+ preprocess_video\nego_view 裁剪"]
+        F["raw_to_lerobot\nunified.data"]
+        D --> E --> F
+    end
+
+    subgraph S4["④ IDM 补动作"]
+        direction TB
+        G["dump_idm_actions\nIDM_gr1 · 16-step chunk"]
+        H["unified.data_idm\n126 episode"]
+        F --> G --> H
+    end
+
+    H --> I["gr00t_finetune.py\ncheckpoint 20k"]
+
+    style A fill:#EAF3F7,stroke:#0E5A8A,color:#172033
+    style B fill:#EAF3F7,stroke:#0E5A8A,color:#172033
+    style C fill:#FFF4EC,stroke:#C96B1A,color:#172033
+    style D fill:#FFF4EC,stroke:#C96B1A,color:#172033
+    style E fill:#F5FAFC,stroke:#526174,color:#172033
+    style F fill:#F5FAFC,stroke:#526174,color:#172033
+    style G fill:#EEF8F4,stroke:#1F8A70,color:#172033
+    style H fill:#EEF8F4,stroke:#1F8A70,color:#172033
+    style I fill:#EAF3F7,stroke:#0E5A8A,color:#172033
+    style S1 fill:#F7FBFD,stroke:#0E5A8A,color:#172033
+    style S2 fill:#FFFBF7,stroke:#C96B1A,color:#172033
+    style S3 fill:#F8FAFB,stroke:#526174,color:#172033
+    style S4 fill:#F5FBF8,stroke:#1F8A70,color:#172033

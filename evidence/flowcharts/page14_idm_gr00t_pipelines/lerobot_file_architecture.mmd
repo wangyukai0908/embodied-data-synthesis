@@ -1,0 +1,72 @@
+%% LeRobot / DreamGen-EVAL175 文件架构（白底 · subgraph 固定层级）
+flowchart TB
+    ROOT["DreamGen-EVAL175-20260817"]
+
+    subgraph VBLK["① 观测视频"]
+        direction TB
+        V["eval175_gr1_videos"]
+        V1["*.mp4 × 126 · 观测视频"]
+        V2["*.txt × 126 · 任务文本"]
+        V --> V1
+        V --> V2
+    end
+
+    subgraph DBLK["② LeRobot 骨架"]
+        direction TB
+        D["eval175_gr1_unified.data"]
+        DM["meta/"]
+        DD["data/chunk-000/"]
+        DM1["info.json · episodes/fps/特征"]
+        DM2["modality.json · 相机/状态/动作字段"]
+        DM3["stats.json · 归一化统计"]
+        DM4["episodes.jsonl · 轨迹索引"]
+        DM5["tasks.jsonl · 任务指令"]
+        DD1["episode_*.parquet · 状态 + 占位 action"]
+        D --> DM
+        D --> DD
+        DM --> DM1
+        DM --> DM2
+        DM --> DM3
+        DM --> DM4
+        DM --> DM5
+        DD --> DD1
+    end
+
+    subgraph IBLK["③ IDM 补标结果"]
+        direction TB
+        I["eval175_gr1_unified.data_idm"]
+        IM["meta/ · 字段与统计同步"]
+        ID["data/chunk-000/ · 写回伪动作 parquet"]
+        ID1["126 episode · 可进 GR00T 训练"]
+        I --> IM
+        I --> ID
+        ID --> ID1
+    end
+
+    ROOT --> V
+    ROOT --> D
+    ROOT --> I
+
+    V1 -.->|同一 episode 索引| DD1
+    DD1 -.->|IDM 覆盖 action| ID1
+
+    style ROOT fill:#EAF3F7,stroke:#0E5A8A,color:#172033
+    style V fill:#FFF4EC,stroke:#C96B1A,color:#172033
+    style D fill:#EAF3F7,stroke:#0E5A8A,color:#172033
+    style I fill:#EEF8F4,stroke:#1F8A70,color:#172033
+    style V1 fill:#FFFFFF,stroke:#C96B1A,color:#172033
+    style V2 fill:#FFFFFF,stroke:#C96B1A,color:#172033
+    style DM fill:#F5FAFC,stroke:#0E5A8A,color:#172033
+    style DD fill:#F5FAFC,stroke:#0E5A8A,color:#172033
+    style DM1 fill:#FFFFFF,stroke:#526174,color:#172033
+    style DM2 fill:#FFFFFF,stroke:#526174,color:#172033
+    style DM3 fill:#FFFFFF,stroke:#526174,color:#172033
+    style DM4 fill:#FFFFFF,stroke:#526174,color:#172033
+    style DM5 fill:#FFFFFF,stroke:#526174,color:#172033
+    style DD1 fill:#FFFFFF,stroke:#526174,color:#172033
+    style IM fill:#FFFFFF,stroke:#1F8A70,color:#172033
+    style ID fill:#FFFFFF,stroke:#1F8A70,color:#172033
+    style ID1 fill:#FFFFFF,stroke:#1F8A70,color:#172033
+    style VBLK fill:#FFFBF7,stroke:#C96B1A,color:#172033
+    style DBLK fill:#F7FBFD,stroke:#0E5A8A,color:#172033
+    style IBLK fill:#F5FBF8,stroke:#1F8A70,color:#172033

@@ -1,0 +1,17 @@
+%% Slide 06 · 数据合成在具身产业链中的位置
+flowchart LR
+    S1["① 机器人\n/ 仿真器"] --> S2["② 采集\n与遥操作"]
+    S2 --> S3["③ 清洗\n/ 格式化"]
+    S3 --> S4["④ 数据合成\n与扩充"]
+    S4 --> S5["⑤ VLA / 世界\n模型训练"]
+    S5 --> S6["⑥ 仿真\n与真机验证"]
+    S6 --> S7["⑦ 失败\n样本回流"]
+    S7 -.-> S3
+
+    style S1 fill:#F5FAFC,stroke:#526174,color:#172033
+    style S2 fill:#F5FAFC,stroke:#526174,color:#172033
+    style S3 fill:#F5FAFC,stroke:#526174,color:#172033
+    style S4 fill:#FFF4EC,stroke:#C96B1A,color:#172033
+    style S5 fill:#EAF3F7,stroke:#0E5A8A,color:#172033
+    style S6 fill:#EEF8F4,stroke:#1F8A70,color:#172033
+    style S7 fill:#F5FAFC,stroke:#526174,color:#172033

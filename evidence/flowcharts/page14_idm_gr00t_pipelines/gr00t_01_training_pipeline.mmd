@@ -1,0 +1,12 @@
+%% GR00T 后训练链路 · DreamGen 数据 → 20k checkpoint
+%% 受众：领导汇报 · 强调训练流程跑通，非策略增益
+flowchart LR
+    A[".data_idm\nLeRobot 数据集\n126 episode"] --> B["DataConfig\ngr1_arms_waist\nmodality + stats"]
+    B --> C["DataLoader\n观测窗 + action horizon\n时间对齐 batch"]
+    C --> D["GR00T-N1-2B\n预训练权重"]
+    D --> E["后训练微调\nLLM 冻结\n视觉 + 动作 DiT 训练"]
+    E --> F["checkpoint 20k\ntrainer_state\nloss 可复核"]
+
+    style A fill:#EEF8F4,stroke:#1F8A70,color:#172033
+    style F fill:#EAF3F7,stroke:#0E5A8A,color:#172033
+    style E fill:#FFF4EC,stroke:#C96B1A,color:#172033

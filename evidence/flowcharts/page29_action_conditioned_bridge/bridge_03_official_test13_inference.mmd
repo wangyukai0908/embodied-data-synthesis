@@ -1,0 +1,8 @@
+%% Source: DreamGen-GR00T-and-Three-WAM-正式汇报-二版完整稿.md, page 27
+flowchart LR
+    A["Bridge test/13 视频"] --> B["读取首帧"]
+    C["Bridge test/13 JSON"] --> D["前 12×7D 真实动作"]
+    E["官方 Bridge 后训练 checkpoint\nCosmos-Predict2-2B-Sample-Action-Conditioned"] --> F["Action-Conditioned 推理"]
+    B --> F
+    D --> F
+    F --> G["480P / 4FPS\n未来视频 MP4"]

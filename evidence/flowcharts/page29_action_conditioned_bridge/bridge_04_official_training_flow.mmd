@@ -1,0 +1,10 @@
+%% Source: DreamGen-GR00T-and-Three-WAM-正式汇报-二版完整稿.md, page 28
+flowchart LR
+    A["Bridge train / val\n视频 + 真实 7D 动作"] --> B["Bridge dataloader\n13 帧 + 12×7D 动作块"]
+    C["基础 Video2World 2B"] --> D["Action Conditioner\n+ Video2World DiT"]
+    B --> D
+    D --> E["2×GPU FSDP 后训练\nfused AdamW"]
+    E --> F["训练 checkpoint\niter_xxxxxxxxx.pt"]
+    G["Bridge test 首帧\n+ 同步真实动作块"] --> H["video2world_action.py"]
+    F --> H
+    H --> I["动作条件未来视频"]

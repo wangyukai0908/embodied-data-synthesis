@@ -1,0 +1,13 @@
+%% Slide 15 · 四层级：数据能否直接训练 VLA · 横向
+flowchart LR
+    L0["L0 · 只有视觉\n文本 + 首帧 → 视频\n无控制监督"]
+    L1["L1 · 动作条件视频\n真实 / 规划 action → 未来画面\n动作来自外部"]
+    L2["L2 · 伪动作轨迹\n视频 → IDM / latent action\n依赖本体适配"]
+    L3["L3 · 完整轨迹\n视觉 + 状态 + 语言 + 动作 + 时间\n可进入训练接口"]
+
+    L0 --> L1 --> L2 --> L3
+
+    style L0 fill:#F5FAFC,stroke:#526174,color:#172033
+    style L1 fill:#FFF4EC,stroke:#C96B1A,color:#172033
+    style L2 fill:#EEF8F4,stroke:#1F8A70,color:#172033
+    style L3 fill:#EAF3F7,stroke:#0E5A8A,color:#172033

@@ -1,0 +1,52 @@
+%% GR00T 双系统 + 后训练 · 复用二版稿第 6 页与现有 training pipeline
+flowchart LR
+    subgraph IN["输入"]
+        direction TB
+        IMG["多相机图像"]
+        LANG["语言指令"]
+        STATE["机器人状态"]
+    end
+
+    subgraph S2["System 2 · 理解"]
+        direction TB
+        VLM["VLM\n场景与任务语义"]
+    end
+
+    subgraph S1["System 1 · 动作"]
+        direction TB
+        DIT["Action DiT\nFlow Matching"]
+        CFG["DataConfig\nEmbodiment"]
+    end
+
+    subgraph TRAIN["后训练（本次工程）"]
+        direction TB
+        DATA[".data_idm\n126 episode"]
+        FT["微调\nLLM 冻结\n视觉+动作训练"]
+        CKPT["checkpoint 20k"]
+    end
+
+    IMG --> VLM
+    LANG --> VLM
+    VLM --> DIT
+    STATE --> DIT
+    CFG --> DIT
+    DIT --> OUT["连续 action chunk"]
+
+    DATA --> FT
+    FT --> CKPT
+    CKPT -.-> DIT
+
+    style IMG fill:#FFF4EC,stroke:#C96B1A,color:#172033
+    style LANG fill:#FFF4EC,stroke:#C96B1A,color:#172033
+    style STATE fill:#FFF4EC,stroke:#C96B1A,color:#172033
+    style VLM fill:#EAF3F7,stroke:#0E5A8A,color:#172033
+    style DIT fill:#EAF3F7,stroke:#0E5A8A,color:#172033
+    style CFG fill:#F5FAFC,stroke:#526174,color:#172033
+    style OUT fill:#EEF8F4,stroke:#1F8A70,color:#172033
+    style DATA fill:#EEF8F4,stroke:#1F8A70,color:#172033
+    style FT fill:#FFF4EC,stroke:#C96B1A,color:#172033
+    style CKPT fill:#EAF3F7,stroke:#0E5A8A,color:#172033
+    style IN fill:#FFFBF7,stroke:#C96B1A,color:#172033
+    style S2 fill:#F7FBFD,stroke:#0E5A8A,color:#172033
+    style S1 fill:#F7FBFD,stroke:#0E5A8A,color:#172033
+    style TRAIN fill:#F5FBF8,stroke:#1F8A70,color:#172033
