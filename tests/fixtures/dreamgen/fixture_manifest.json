@@ -1,0 +1,11 @@
+{
+  "fixture": "dreamgen",
+  "purpose": "dry-run path resolution for DreamGen/GR00T stages",
+  "expected_episodes_default": 1,
+  "layout": {
+    "inputs": "PNG+txt stubs staged by operator",
+    "outputs": "created only on real runs",
+    "checkpoints": "external",
+    "upstream_stub": "optional empty dir marker"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "sample_id": "13",
+  "annotation": "fixture-stub",
+  "action_dim": 7,
+  "note": "Replace with real Bridge annotation for GPU runs; stub is dry-run only."
+}

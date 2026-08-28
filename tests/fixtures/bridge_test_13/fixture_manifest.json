@@ -1,0 +1,6 @@
+{
+  "fixture": "bridge_test_13",
+  "purpose": "dry-run only; no binary video committed",
+  "required_real_files": ["rgb.mp4", "13.json"],
+  "notes": "Stage real Bridge sample outside Git; keep this manifest in Git."
+}

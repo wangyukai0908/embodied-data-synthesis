@@ -1,0 +1,57 @@
+# Large artifacts and experiment outputs
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.onnx
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.parquet
+*.npz
+*.h5
+*.npz.zarr
+
+# Datasets / checkpoints / caches
+data/
+datasets/
+checkpoints/
+outputs/
+run/
+logs/
+cache/
+.cache/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+.env.*
+
+# Local secrets and private inventories
+manifests/internal/
+*.pem
+*.key
+id_rsa*
+*.token
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Generated local QA / fixture outputs
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.log
+tests/fixtures/**/outputs/
+
+# Do not track presentation binaries
+*.pptx
+*.ppt
+*.pdf

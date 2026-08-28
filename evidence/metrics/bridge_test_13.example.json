@@ -1,0 +1,21 @@
+{
+  "sample_id": "bridge_test_13",
+  "input_frames": 24,
+  "output_frames": 13,
+  "resolution": "640x480",
+  "fps_in": 3,
+  "fps_out": 4,
+  "action_dim": 7,
+  "checkpoint_revision": "pending",
+  "tokenizer_revision": "pending",
+  "command": "examples/video2world_action.py --model_size 2B ...",
+  "hashes": {
+    "output_video": "pending"
+  },
+  "claim": "action-conditioned video generation",
+  "not_claims": [
+    "IDM pseudo-action recovery",
+    "GR00T policy gain",
+    "dataset quality"
+  ]
+}

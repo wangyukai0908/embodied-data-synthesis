@@ -1,0 +1,33 @@
+{
+  "sample_id": "bridge_test_13",
+  "input_frames": 24,
+  "output_frames": 13,
+  "resolution": "640x480",
+  "fps_in": null,
+  "fps_out": 4,
+  "action_dim": 7,
+  "checkpoint_revision": "661da4774b0ca41d082a0ecbeb47550bcf07e03f + patches/cosmos-predict2",
+  "tokenizer_revision": "Cosmos-Predict2-2B-Video2World/tokenizer",
+  "command": "examples/video2world_action.py --model_size 2B --num_conditional_frames 1 --guidance 0 --seed 0 --disable_guardrail --disable_prompt_refiner",
+  "hashes": {
+    "input_rgb_mp4": "bf84fddff88ad2afdc6ca5412124f1f91ae95c0d290303adb221d79358b41037",
+    "input_annotation_json": "1c9ee2f7212b68ca808e79c952244c3e024c26183855d1e66116ad78395f8909",
+    "output_video": "94e649b2215185c92bf8f3d63ab8bafecb232a7c948192ae603bdd2801084482",
+    "source_metrics_txt": "61ed33eef2bf9c200e64636b7c63d7adb41a54e429cb32026aa50b84ff5623f9",
+    "action_conditioned_ckpt_pt": "7193884d61b3842e73eb0678ffa9f48258264f75f06d76c91c41ce114ae49875",
+    "tokenizer_pth": "38071ab59bd94681c686fa51d75a1968f64e470262043be31f7a094e442fd981"
+  },
+  "bytes": {
+    "input_rgb_mp4": 336087,
+    "input_annotation_json": 12111,
+    "output_video": 428784
+  },
+  "claim": "action-conditioned video generation",
+  "not_claims": [
+    "IDM pseudo-action recovery",
+    "GR00T policy gain",
+    "dataset quality",
+    "GR1 embodiment validated"
+  ],
+  "source_note": "Captured from staging-host materials/metrics.txt on 2026-08-28; paths redacted from public file"
+}
