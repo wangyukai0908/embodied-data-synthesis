@@ -5,9 +5,9 @@ Large artifacts stay **outside Git**. Recorded sizes/hashes from staging host on
 | ID | Artifact | Source | Revision / tag | Bytes | SHA256 | License / access | Storage | Claim boundary |
 |---|---|---|---|---|---|---|---|---|
 | A1 | EVAL-175 GR1 PNG+txt inputs | permission-required / dataset card | staging 2026-08-28 | 179850140 | pending (tree) | permission-required | object store / HF | Inputs for video generation only |
-| A2 | DreamGen generated videos (126 MP4) | internal-generated | staging 2026-08-28 | 217182818 | pending (tree; count=126 verified) | internal-generated | object store | Generation complete ≠ task success |
-| A3 | LeRobot `.data` (pre-IDM) | internal-generated | staging 2026-08-28 | 12976370 | pending (tree; 126 parquet) | internal-generated | object store | Schema shell before IDM writeback |
-| A4 | LeRobot `.data_idm` (126 episodes) | internal-generated | staging 2026-08-28 | 15687193 | pending (tree; 126 parquet) | internal-generated | object store | IDM pseudo-actions ≠ sensor GT |
+| A2 | DreamGen generated videos (126 MP4) | https://huggingface.co/datasets/kevin0908/embodied-data-synthesis-artifacts | staging→HF 2026-08-28 | ~217MB in HF bundle | see HF repo | internal-generated | HF Dataset | Generation complete ≠ task success |
+| A3 | LeRobot `.data` (pre-IDM) | internal-generated | staging 2026-08-28 | 12976370 | pending (tree; 126 parquet) | internal-generated | object store | Schema shell before IDM writeback (not in HF upload by default) |
+| A4 | LeRobot `.data_idm` (126 episodes) | https://huggingface.co/datasets/kevin0908/embodied-data-synthesis-artifacts | staging→HF 2026-08-28 | in HF bundle | see HF repo | internal-generated | HF Dataset | IDM pseudo-actions ≠ sensor GT |
 | A5 | IDM_gr1 checkpoint dir | HF / permission-required | staging 2026-08-28 | 9962195460 | config.json `ad694c9a1feb9a0150fcbc7d513796a25cef1b6ca3715e28e0a2a7d4afde2968` | permission-required | HF cache external | Used for writeback only |
 | A6 | GR00T N1-2B base checkpoint | HF / permission-required | pending exact file hash | pending | pending | permission-required | HF cache external | Base weights not redistributed |
 | A7 | GR00T finetune run ≥20k steps | internal-generated | staging; `checkpoint-20000` present | 161025022821 (dir); checkpoint-20000=19033051088 | `trainer_state.json` `9310323e2be7f8c9e03e1cdf412f6b98ddce7ad5828bd010d65b7e317162579c` | internal-generated | object store | Step count / interface only; not policy gain |

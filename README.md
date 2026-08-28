@@ -3,7 +3,7 @@
 > **仓库**：[github.com/wangyukai0908/embodied-data-synthesis](https://github.com/wangyukai0908/embodied-data-synthesis)  
 > **完整 PPT 文稿（40 页逐页）**：[docs/presentation-source.md](docs/presentation-source.md)  
 > **调研长文**：[docs/research-survey.md](docs/research-survey.md)  
-> **大文件（视频 / LeRobot / 指标）**：建议放 Hugging Face Dataset，见 [docs/HF_UPLOAD.md](docs/HF_UPLOAD.md)（上传后把链接填到下方「资源地址」）
+> **大文件（视频 / LeRobot / 指标）**：[kevin0908/embodied-data-synthesis-artifacts](https://huggingface.co/datasets/kevin0908/embodied-data-synthesis-artifacts)（说明见 [docs/HF_UPLOAD.md](docs/HF_UPLOAD.md)）
 
 ---
 
@@ -33,7 +33,7 @@
 |---|---|---|
 | 代码与文档 | https://github.com/wangyukai0908/embodied-data-synthesis | 已推送（`master`；`main` 合并视网络情况） |
 | PPT 二进制 | 本地桌面 `具身智能数据合成方法-公司汇报-最终版.pptx` | **不进 Git**（版权 / 体积）；正文在 `docs/presentation-source.md` |
-| 大文件 Dataset | `https://huggingface.co/datasets/<你的账号>/embodied-data-synthesis-artifacts` | **待你创建并上传**，清单见 `docs/HF_UPLOAD.md` |
+| 大文件 Dataset | https://huggingface.co/datasets/kevin0908/embodied-data-synthesis-artifacts | 已上传：Bridge test/13、126 MP4、`.data_idm`、`trainer_state.json`（约 235MB） |
 | 上游 GR00T-Dreams | 外部 clone，revision `ec3881d...` | 见 `manifests/upstream-revisions.md` |
 | 上游 cosmos-predict2 | 外部 clone，revision `661da477...` + 本仓 `patches/cosmos-predict2/` | 同上 |
 
@@ -288,8 +288,8 @@ tests/fixtures/            # dry-run 夹具
 
 ---
 
-## 9. 下一步（给你）
+## 9. 下一步（可选）
 
-1. 在 Hugging Face 建 Dataset，按 `docs/HF_UPLOAD.md` 上传视频与 LeRobot。  
-2. 把 Dataset URL 发我或自行改本 README「资源地址」表。  
-3. （可选）把 GitHub 默认分支设为包含全文的 `master`，或把 `master` 合并进 `main`（若上次网络超时未完成，可再说一声我重试）。
+1. 在 GitHub 把默认分支设为 `master`，或把 `master` 合并进 `main`。  
+2. 在 HF 上作废曾出现在聊天中的旧 token，换发新 token。  
+3. 需要时再补传更大权重（默认不上传 IDM/GR00T/Cosmos 权重）。
