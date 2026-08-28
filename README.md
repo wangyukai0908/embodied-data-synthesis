@@ -1,6 +1,7 @@
 # 具身智能数据合成方法 · 工程案例库
 
 > **仓库**：[github.com/wangyukai0908/embodied-data-synthesis](https://github.com/wangyukai0908/embodied-data-synthesis)  
+> **主文（连贯叙述 + 配图）**：[docs/具身智能数据合成方法.md](docs/具身智能数据合成方法.md)  
 > **完整 PPT 文稿（40 页逐页）**：[docs/presentation-source.md](docs/presentation-source.md)  
 > **调研长文**：[docs/research-survey.md](docs/research-survey.md)  
 > **大文件（视频 / LeRobot / 指标）**：[kevin0908/embodied-data-synthesis-artifacts](https://huggingface.co/datasets/kevin0908/embodied-data-synthesis-artifacts)（说明见 [docs/HF_UPLOAD.md](docs/HF_UPLOAD.md)）
@@ -33,7 +34,8 @@
 |---|---|---|
 | 代码与文档 | https://github.com/wangyukai0908/embodied-data-synthesis | 已推送 |
 | 大文件 Dataset | https://huggingface.co/datasets/kevin0908/embodied-data-synthesis-artifacts | Bridge test/13、126 MP4、`.data_idm`、`trainer_state.json`（约 235MB） |
-| PPT 正文 | [`docs/presentation-source.md`](docs/presentation-source.md) | PPTX 二进制不进 Git |
+| 主文（连贯叙述） | [`docs/具身智能数据合成方法.md`](docs/具身智能数据合成方法.md) | 配图在 `docs/assets/` |
+| PPT 逐页正文 | [`docs/presentation-source.md`](docs/presentation-source.md) | PPTX 二进制不进 Git |
 | 流程图 | [`evidence/flowcharts/`](evidence/flowcharts/) | Mermaid + PNG |
 
 ### 官方权重 / 上游代码（服务器上有、本仓不托管）
@@ -266,6 +268,8 @@ uv run scripts/plot_gr00t_loss.py /path/to/trainer_state.json evidence/plots/gr0
 
 ```text
 docs/
+  具身智能数据合成方法.md  # 主文：连贯叙述 + 配图
+  assets/                  # 主文引用的 PPT 素材与整页备份
   presentation-source.md   # 最终版 PPT 逐页全文
   research-survey.md       # 调研与证据词汇
   HF_UPLOAD.md             # 大文件上传指南
