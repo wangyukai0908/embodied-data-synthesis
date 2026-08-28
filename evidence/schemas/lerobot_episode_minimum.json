@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LeRobotEpisodeMinimum",
+  "type": "object",
+  "required": ["action", "timestamp", "episode_index"],
+  "properties": {
+    "action": {"description": "Per-frame action vector or nested action fields"},
+    "observation.state": {"description": "Optional proprioceptive state"},
+    "timestamp": {"type": "number"},
+    "episode_index": {"type": "integer"},
+    "task_index": {"type": "integer"}
+  }
+}
