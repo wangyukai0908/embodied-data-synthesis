@@ -7,7 +7,7 @@
 > **方法横向比较**：[docs/method-comparison.md](docs/method-comparison.md) · **IDM/WAM 接口说明**：[docs/idm-wam-interface.md](docs/idm-wam-interface.md)
 > **实验交接**：[docs/experiment-handoff.md](docs/experiment-handoff.md) · **部署说明**：[docs/vla-wam-deployment.md](docs/vla-wam-deployment.md)
 > **上传审计**：[docs/upload-audit.md](docs/upload-audit.md)
-> **大文件（视频 / LeRobot / 指标）**：[kevin0908/embodied-data-synthesis-artifacts](https://huggingface.co/datasets/kevin0908/embodied-data-synthesis-artifacts)（说明见 [docs/HF_UPLOAD.md](docs/HF_UPLOAD.md)）
+> **大文件（视频 / LeRobot / 指标）**：[HF Dataset 目标仓库](https://huggingface.co/datasets/wangyukai0908/embodied-data-synthesis-artifacts)（上传状态需凭证后对账，说明见 [docs/HF_UPLOAD.md](docs/HF_UPLOAD.md)）
 
 ---
 
@@ -36,7 +36,7 @@
 | 资源 | 地址 | 状态 |
 |---|---|---|
 | 代码与文档 | https://github.com/wangyukai0908/embodied-data-synthesis | 已推送 |
-| 大文件 Dataset | https://huggingface.co/datasets/kevin0908/embodied-data-synthesis-artifacts | Bridge test/13、126 MP4、`.data_idm`、`trainer_state.json`（约 235MB；HF 账号与 GitHub 账号为同一项目的 artifact 发布账号） |
+| 大文件 Dataset（目标） | https://huggingface.co/datasets/wangyukai0908/embodied-data-synthesis-artifacts | Bridge test/13、126 MP4、`.data_idm`、`trainer_state.json`；需在远端配置 HF token 后运行上传脚本并对账 |
 | 私有模型仓库（待上传） | `HF_MODEL_REPO`（默认 `wangyukai0908/embodied-data-synthesis-checkpoints`） | GR00T 20k 训练目录和经许可的模型文件；使用 `scripts/upload_remote_artifacts.sh` |
 | 主文（连贯叙述） | [`docs/具身智能数据合成方法.md`](docs/具身智能数据合成方法.md) | 配图在 `docs/assets/` |
 | PPT 逐页正文 | [`docs/presentation-source.md`](docs/presentation-source.md) | PPTX 二进制不进 Git |

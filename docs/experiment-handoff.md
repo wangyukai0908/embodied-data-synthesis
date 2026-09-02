@@ -66,7 +66,7 @@ $SERVER_DATA_ROOT/cosmos-action-bridge/inference/bridge_test_13_official.mp4
 
 可公开分享的选定产物位于 Hugging Face Dataset：
 
-<https://huggingface.co/datasets/kevin0908/embodied-data-synthesis-artifacts>
+<https://huggingface.co/datasets/wangyukai0908/embodied-data-synthesis-artifacts>
 
 其中包含 126 个视频、`.data_idm` 和 Bridge 冒烟结果；GR00T checkpoint、IDM checkpoint、Cosmos 权重和完整训练目录不进入 Git 或该 Dataset。
 
