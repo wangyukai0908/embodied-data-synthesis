@@ -45,6 +45,7 @@ Thumbs.db
 *.swp
 
 # Generated local QA / fixture outputs
+.omo/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/

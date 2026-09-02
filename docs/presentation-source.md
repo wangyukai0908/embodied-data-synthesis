@@ -1,11 +1,13 @@
 # Embodied data synthesis — presentation source (cleaned)
 
-> Migrated from the v2 PPT editing manuscript. This is the canonical 40-slide content source.
+> Migrated from the v2 PPT editing manuscript. This is the canonical content source: the 40-slide baseline plus four approved explanatory insertions (44 slides after final renumbering).
 > Final PowerPoint binary is **not** committed; see `manifests/source-of-truth.md`.
 
 # 具身智能数据合成方法
 
 > PPT 内容源：从数据契约、方法谱系到工程验证
+
+> **插页说明**：为保持原有页面引用稳定，本轮新增页暂用 `A` 后缀标记（如 `Slide 11A`）。生成最终 PPT 时按插入位置顺序重编号；四个 Part 的叙事顺序不变。
 
 ## 使用说明
 
@@ -28,9 +30,9 @@
 | Part | 主题 | 页码 |
 |---|---|---|
 | Part 1 | 为什么需要具身智能数据合成，以及它在产业链中的位置 | 3–7 |
-| Part 2 | 一条可训练的具身轨迹由什么组成 | 8–12 |
-| Part 3 | 四类主方法、动作监督来源与统一评价 | 13–26 |
-| Part 4 | DreamGen、GR00T、Cosmos 的工程验证与边界 | 27–40 |
+| Part 2 | 一条可训练的具身轨迹由什么组成 | 8–13 |
+| Part 3 | 四类主方法、动作监督来源与统一评价 | 14–27 |
+| Part 4 | DreamGen、GR00T、Cosmos 的工程验证与边界 | 28–44 |
 
 ---
 
@@ -250,6 +252,49 @@
 **来源**：LeRobot v2 数据格式。
 
 **建议插图**：文件结构图占页面约三分之二，右侧用三条箭头说明 MP4、Parquet、metadata 的职责，并高亮 `modality.json` 和 `stats.json`。
+
+---
+
+## Slide 11A｜一条 episode 的实际张量
+
+**页面类型**：单条轨迹样例 + 字段说明
+
+**标题**：把抽象的数据契约落到一条可读取的 episode
+
+**页面主张**：训练样本不是一个视频文件，而是同一时间轴上可互相索引的多模态张量和元数据。
+
+**轨迹样例（示意 schema）**：
+
+```yaml
+observation.images.ego_view: [T, H, W, 3]
+observation.state:            [T, D_state]
+action:                       [T, D_action]
+task:                         "把物体放入盒子"
+timestamp:                    [T]
+episode_index:                7
+```
+
+**字段如何被使用**：
+
+- `observation.images` 描述每个时刻看到的场景和交互变化
+- `observation.state` 描述关节、末端、夹爪或底盘等自身状态
+- `action` 是策略需要预测的控制目标，维度由 embodiment 决定
+- `timestamp`、`episode_index` 把视频帧、动作窗口和任务边界绑定起来
+
+**视觉要点（不超过 5 项）**：
+
+- 用一条横向时间轴连接 `frame_t`、`state_t`、`action_t`
+- 用颜色区分 observation、监督信号和索引字段
+- 右侧放一小段 `modality.json` / `stats.json` 字段摘录
+- 底部标出“缺动作只能做视觉学习，缺时间无法对齐监督”
+
+**素材/证据**：
+
+- Schema：`../evidence/schemas/lerobot_episode_minimum.json`
+- 文件结构图：`../evidence/flowcharts/page14_idm_gr00t_pipelines/lerobot_file_architecture.png`
+- 字段职责依据：LeRobot v2 数据格式；具体实验字段见工作区交接文档 §3.2–3.3
+
+**一句话带走**：只有当视觉、状态、动作、语言和时间能在同一 episode 内逐帧对应，样本才具备进入 VLA DataLoader 的基本条件。
 
 ---
 
@@ -653,6 +698,49 @@ WAM：当前视觉/世界特征 → 动作
 
 ---
 
+## Slide 31A｜GR00T 原版可训练路径
+
+**页面类型**：通用训练闭环图 + 当前案例定位
+
+**标题**：DreamGen 只是数据来源之一，GR00T 本身有完整的通用训练路径
+
+**页面主张**：GR00T 的核心是把多来源具身数据统一成可训练接口，再通过预训练、任务后训练和 rollout 迭代策略；当前实验只覆盖其中的“合成轨迹接入 + 后训练”一段。
+
+**通用路径**：
+
+```text
+真实轨迹 / 仿真轨迹 / 人类视频 / Neural Trajectories
+        → 统一 LeRobot schema + embodiment adapter
+        → 通用 VLA 预训练
+        → 目标机器人或任务后训练
+        → 仿真/真机 rollout 验证
+        → 失败样本回流与数据再采集
+```
+
+**需要讲清的边界**：
+
+- GR00T 是 VLA 训练与动作预测系统，不等同于 DreamGen
+- DreamGen 提供候选视觉未来或 Neural Trajectory，不能替代 schema 对齐
+- Cosmos action-conditioned 是独立的视频生成路径，动作条件来自外部轨迹
+- 当前案例没有覆盖通用预训练和 rollout 收益评估
+
+**视觉要点（不超过 5 项）**：
+
+- 画六节点闭环，突出 `schema/adapter` 是共同入口
+- 用虚线框标出“本次实验覆盖范围”
+- 预训练与后训练使用不同颜色，避免被看成同一步
+- rollout 失败沿回流箭头返回数据侧
+
+**素材/证据**：
+
+- GR00T 流程图：`../evidence/flowcharts/page14_idm_gr00t_pipelines/gr00t_pipeline.png`
+- 训练接口参考：`../evidence/flowcharts/page14_idm_gr00t_pipelines/gr00t_01_training_pipeline.png`
+- 训练路径依据：GR00T N1 Technical Report；数据层级和边界见 `../manifests/source-of-truth.md`
+
+**一句话带走**：本项目验证的是 GR00T 通用路径中的一个接入切片，不应把一次合成数据微调等同于完整 VLA 能力或策略收益。
+
+---
+
 ## Slide 32｜GR00T 当前训练接口
 
 **页面类型**：宽流程图
@@ -688,6 +776,49 @@ WAM：当前视觉/世界特征 → 动作
 `$WORKSPACE/<local-path>`
 
 **建议插图**：结果图旁留一个小型计数指标区，只放“126 videos / 126 episodes / loaded by GR00T”三项，不把它们写成策略收益。
+
+---
+
+## Slide 33A｜DreamGen 实验卡片：配置、证据与边界
+
+**页面类型**：三栏实验卡片
+
+**标题**：这次实验跑通了数据接入，但还没有回答控制收益
+
+**页面主张**：把运行配置、已经确认的工程事实和仍待验证的问题并列展示，避免把“流程完成”误读为“策略有效”。
+
+**配置**：
+
+- 输入/输出：126 条视频 → 126 个 IDM episode；LeRobot `.data_idm`
+- 本体与训练：GR1；GR00T N1-2B；20,000 steps；2 GPU
+- 数据接口：`gr1_arms_waist`、`decord`、batch size 8/GPU；保存间隔 1,000 steps
+
+**已经证明**：
+
+- 视频生成、预处理和 IDM 动作写回流程完成
+- 126 个 episode 可由 GR00T DataLoader 读取
+- 模型完成反向传播并达到 20k steps；loss 曲线已导出
+
+**尚未证明**：
+
+- 合成轨迹优于真实或仿真数据
+- rollout 成功率、鲁棒性或跨场景泛化提升
+- IDM 伪动作等价于真实控制日志
+
+**视觉要点（不超过 5 项）**：
+
+- 三栏标题固定为“配置 / 已证明 / 尚未证明”
+- 配置栏用小型数字卡展示 `126 / 126 / 20k`
+- 已证明栏用实心勾，待验证栏用留白占位
+- 底部加证据边界线：`loss 下降 ≠ 控制收益`
+
+**素材/证据**：
+
+- 训练曲线：`../evidence/plots/gr00t_eval175_20k_loss.png`
+- 计数与状态：`../manifests/claim-status.md`（S1–S5）
+- 产物边界：`../manifests/artifacts.md`（A2、A4、A7）；详细配置见工作区交接文档 §6.3–6.4
+
+**一句话带走**：20k 微调证明的是数据和训练接口可运行，控制效果必须由独立 rollout 与真实/仿真基线对照回答。
 
 ---
 
@@ -759,6 +890,44 @@ WAM：当前视觉/世界特征 → 动作
 **尚未证明**：生成轨迹优于真实或仿真数据；单条 Bridge 代表总体质量；GR00T、WAM 或真机成功率得到提升。
 
 **建议插图**：使用“已证明 / 尚未证明”两栏，中间放一条明确的证据边界线；未完成的 rollout 指标用空白占位，不用虚构数字。
+
+---
+
+## Slide 37A｜四层验收框架
+
+**页面类型**：分层质量门
+
+**标题**：数据合成的验收要从“能打开”逐层走到“能控制”
+
+**页面主张**：格式完整和训练可收敛只是前置条件，只有下游 rollout、鲁棒性和泛化通过，才能判断合成数据是否值得保留。
+
+**四层质量门**：
+
+1. **L0 数据完整性**：MP4、Parquet、任务文本、元数据、timestamp 和 episode 数量/边界一致
+2. **L1 轨迹一致性**：帧间视觉变化与 state/action 方向相符；动作无 NaN、越界或明显跳变；接触关系合理
+3. **L2 训练有效性**：DataLoader 可读取，shape/dtype/schema 对齐，梯度更新正常，checkpoint 可恢复
+4. **L3 控制有效性**：仿真/真机 rollout 成功率、鲁棒性、任务外泛化和真实部署表现达到目标
+
+**数据判定**：
+
+- 通过 L0–L2：可称为“可训练候选数据”，不能直接称为有效策略数据
+- 通过 L3：才有资格进入“下游收益”结论和混合比例决策
+- 任一层失败：保留失败类型，回流到清洗、重生成或采集策略
+
+**视觉要点（不超过 5 项）**：
+
+- 画四级阶梯或四道门，从完整性向控制有效性递进
+- 每层配一个检查对象：文件、曲线、DataLoader、rollout
+- 在 L2 与 L3 之间画粗边界线，标注“训练证据 ≠ 控制证据”
+- 右下角留白给后续 real-only / synthetic-only / mixed 对照结果
+
+**素材/证据**：
+
+- 最小 schema：`../evidence/schemas/lerobot_episode_minimum.json`
+- 质量门依据：`../manifests/claim-status.md`、`../manifests/artifacts.md`
+- 可执行检查入口：`../scripts/inspect_parquet.py`、`../scripts/check_manifests.py`
+
+**一句话带走**：前两层回答“数据有没有坏”，第三层回答“训练能不能跑”，第四层才回答“数据有没有用”。
 
 ---
 

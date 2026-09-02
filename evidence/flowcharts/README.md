@@ -8,4 +8,6 @@ Mermaid sources (`.mmd`) and rendered PNGs used in the company report. Regenerat
 | `page14_idm_gr00t_pipelines/` | DreamGen / IDM / GR00T / System1 / LeRobot pipelines |
 | `page29_action_conditioned_bridge/` | Cosmos Bridge action-conditioned overview & official flows |
 
+The `muxi_flowcharts/` folder also contains `idm_wam_direction.mmd`, the source diagram for the IDM/WAM interface comparison. It is intentionally kept as Mermaid source until the next PPT render pass.
+
 Related plot: [`../plots/gr00t_eval175_20k_loss.png`](../plots/gr00t_eval175_20k_loss.png) (20k-step training loss curve; **not** a success-rate claim).

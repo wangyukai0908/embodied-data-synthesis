@@ -5,7 +5,7 @@ This repository treats the following as the **only** canonical presentation narr
 | Role | Artifact | In Git? | Notes |
 |---|---|---|---|
 | Final deck | `具身智能数据合成方法-公司汇报-最终版.pptx` | **No** | Local/desktop reference only; binaries stay out of Git until redistribution rights are confirmed |
-| Content source | `docs/presentation-source.md` (from `具身智能数据合成方法-正式汇报-v2-PPT编辑稿.md`) | Yes | 40-slide structure, four Parts |
+| Content source | `docs/presentation-source.md` (from `具身智能数据合成方法-正式汇报-v2-PPT编辑稿.md`) | Yes | 44-slide final content source: 40-slide baseline plus four explanatory insertions, four Parts |
 | Research survey | `docs/research-survey.md` (from `具身智能数据合成方法调研.md`) | Yes | Evidence vocabulary and claim boundaries |
 
 ## Older decks / drafts (reference-only)
