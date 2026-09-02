@@ -1,0 +1,19 @@
+%% IDM 与 WAM 方向对照
+%% Provenance: docs/idm-wam-interface.md; local IDM/GR00T pipeline sources
+flowchart LR
+    V["多帧视频\n+embodiment 条件"] --> I["IDM\n逆动力学"]
+    I --> P["伪 action chunk\n写回 LeRobot"]
+    P --> T["VLA / GR00T\n训练数据"]
+
+    O["当前视觉 / 世界表征\n语言 + 状态"] --> W["WAM\n策略解码"]
+    W --> A["直接 action chunk\n执行控制"]
+
+    I -.->|"数据生产：补监督"| P
+    W -.->|"推理控制：预测动作"| A
+
+    classDef data fill:#FFF4EC,stroke:#C96B1A,color:#172033
+    classDef model fill:#EAF3F7,stroke:#0E5A8A,color:#172033
+    classDef output fill:#EEF8F4,stroke:#1F8A70,color:#172033
+    class V,O data
+    class I,W model
+    class P,T,A output
