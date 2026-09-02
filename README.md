@@ -37,6 +37,7 @@
 |---|---|---|
 | 代码与文档 | https://github.com/wangyukai0908/embodied-data-synthesis | 已推送 |
 | 大文件 Dataset | https://huggingface.co/datasets/kevin0908/embodied-data-synthesis-artifacts | Bridge test/13、126 MP4、`.data_idm`、`trainer_state.json`（约 235MB；HF 账号与 GitHub 账号为同一项目的 artifact 发布账号） |
+| 私有模型仓库（待上传） | `HF_MODEL_REPO`（默认 `wangyukai0908/embodied-data-synthesis-checkpoints`） | GR00T 20k 训练目录和经许可的模型文件；使用 `scripts/upload_remote_artifacts.sh` |
 | 主文（连贯叙述） | [`docs/具身智能数据合成方法.md`](docs/具身智能数据合成方法.md) | 配图在 `docs/assets/` |
 | PPT 逐页正文 | [`docs/presentation-source.md`](docs/presentation-source.md) | PPTX 二进制不进 Git |
 | 流程图 | [`evidence/flowcharts/`](evidence/flowcharts/) | Mermaid + PNG |
@@ -54,7 +55,7 @@
 | DreamGen / IDM / GR00T 编排代码 | https://github.com/NVIDIA/GR00T-Dreams （pin `ec3881d44545016871997f8e17dd15f1d792e91d`） |
 | Cosmos Predict2 | https://github.com/nvidia-cosmos/cosmos-predict2 （pin `661da4774b0ca41d082a0ecbeb47550bcf07e03f`） |
 
-本仓案例产物（126 视频、`.data_idm`、Bridge 冒烟样本）在 HF Dataset；**GR00T 微调 150G / IDM 9G / Cosmos ~4.8G 权重不上传**，用上表官方链。
+本仓案例产物（126 视频、`.data_idm`、Bridge 冒烟样本）在 HF Dataset。GR00T 20k 训练目录和其他权重的上传脚本默认创建私有 Model 仓库；第三方权重只有在确认许可并显式设置 `HF_ALLOW_THIRD_PARTY_WEIGHTS=1` 后才会上传，缓存默认永不上传。
 
 ---
 
@@ -319,7 +320,7 @@ uv run scripts/plot_gr00t_loss.py /path/to/trainer_state.json evidence/plots/gr0
 3. `.data_idm`  
 4. `trainer_state.json`
 
-**不要**默认把 10GB+ IDM / 19GB+ GR00T ckpt / Cosmos 权重塞进 Dataset；官方权重见 §2。
+远端大文件上传：先在服务器完成 `hf auth login`，再设置 `SERVER_DATA_ROOT`、`HF_TOKEN`，执行 `bash scripts/upload_remote_artifacts.sh`。脚本可重复运行，数据放 Dataset，训练目录和模型放私有 Model 仓库；详细边界见 [上传审计](docs/upload-audit.md)。
 
 辅助脚本（本机材料整理）：
 
@@ -343,6 +344,8 @@ docs/
   experiment-handoff.md     # 脱敏实验交接
   vla-wam-deployment.md     # 离线/在线部署说明
   HF_UPLOAD.md             # 大文件上传指南
+third_party/wam/           # FastWAM、LingBot-VA、Mimic-Video source-only 快照
+scripts/upload_remote_artifacts.sh  # 远端 HF 可恢复上传脚本
 pipelines/
   cosmos_bridge/           # 教程 A
   dreamgen_gr00t/          # 教程 B

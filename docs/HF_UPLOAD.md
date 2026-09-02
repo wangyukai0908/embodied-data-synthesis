@@ -51,3 +51,22 @@ huggingface-cli upload wangyukai0908/embodied-data-synthesis-artifacts \
 ```
 
 上传后把 Dataset URL 填回本仓库根 `README.md` 的「资源地址」一节，并更新 `manifests/artifacts.md` 的 Source 列。
+
+## 本次远端批量上传
+
+用户指定的 EVAL-175 原始输入、IDM 前 `.data` 和 GR00T 20k 完整训练目录已纳入
+`scripts/upload_remote_artifacts.sh`。前两项进入 Dataset；150GB 训练目录进入单独的
+私有 Model 仓库。脚本使用 `HfApi.upload_folder`，可重复运行并在中断后继续。
+
+```bash
+export SERVER_DATA_ROOT=/path/to/server-data
+export HF_TOKEN=hf_...
+export HF_DATASET_REPO=wangyukai0908/embodied-data-synthesis-artifacts
+export HF_MODEL_REPO=wangyukai0908/embodied-data-synthesis-checkpoints
+bash scripts/upload_remote_artifacts.sh
+```
+
+脚本还支持上传 IDM、Cosmos、FastWAM、LingBot-VA 和 Mimic-Video 权重，但这部分默认拒绝，
+必须在确认各上游许可证和再分发权限后显式设置
+`HF_ALLOW_THIRD_PARTY_WEIGHTS=1`。HF/Torch/pip 缓存不上传；缓存包含重复 blob、临时文件和
+环境状态，不是可复现模型发布物。
