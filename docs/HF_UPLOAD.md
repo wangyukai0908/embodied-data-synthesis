@@ -68,5 +68,9 @@ bash scripts/upload_remote_artifacts.sh
 
 脚本还支持上传 IDM、Cosmos、FastWAM、LingBot-VA 和 Mimic-Video 权重，但这部分默认拒绝，
 必须在确认各上游许可证和再分发权限后显式设置
-`HF_ALLOW_THIRD_PARTY_WEIGHTS=1`。HF/Torch/pip 缓存不上传；缓存包含重复 blob、临时文件和
-环境状态，不是可复现模型发布物。
+`HF_ALLOW_THIRD_PARTY_WEIGHTS=1`。模型目录中的日志、outputs、runs 和常见缓存目录默认排除；
+如确实需要把缓存一并归档，再设置 `HF_UPLOAD_CACHES=1`。缓存通常包含重复 blob、临时文件和
+环境状态，不是可复现模型发布物，建议只在内部私有仓库使用该开关。
+
+上传器会自动区分目录和单文件（例如某些 `.data` 产物），可安全重复运行；中断后再次执行会
+复用 Hugging Face 已存在的文件。
